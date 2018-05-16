@@ -6,19 +6,29 @@ namespace ExtendedAPI.Types
     {
     public static class TypeManager
         {
-        private static Dictionary<string, BaseType> toCall = new Dictionary<string, BaseType>();
+        private static List<Type> toRegister = new List<Type>();
 
-        public static void Add(BaseType type)
+        public static void Add(Type type)
             {
-            toCall.Add(type.key, type);
+            toRegister.Add(type);
             }
 
         public static void RegisterCallBacks()
             {
-                foreach(var type in toCall)
+            foreach(var type in toRegister)
                 {
-                    //ItemTypesServer.OnChange
+                var newType = Activator.CreateInstance(type) as BaseType;
+
+                if(type.GetMethod("RegisterOnAdd").DeclaringType == type)
+                    ItemTypesServer.RegisterOnAdd(newType.key, newType.RegisterOnAdd);
+
+                if(type.GetMethod("RegisterOnRemove").DeclaringType == type)
+                    ItemTypesServer.RegisterOnRemove(newType.key, newType.RegisterOnRemove);
+
+                if(type.GetMethod("RegisterOnUpdateAdjacent").DeclaringType == type)
+                    ItemTypesServer.RegisterOnUpdateAdjacent(newType.key, newType.RegisterOnUpdateAdjacent);
                 }
+            toRegister.Clear();
             }
 
         }

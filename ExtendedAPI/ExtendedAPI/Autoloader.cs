@@ -26,8 +26,7 @@ namespace ExtendedAPI
                                 }
                             else if(type.IsDefined(typeof(Types.AutoLoadTypeAttribute), true))
                                 {
-                                var newtype = System.Activator.CreateInstance(type) as Types.BaseType;
-                                Types.TypeManager.Add(newtype);
+                                Types.TypeManager.Add(type);
                                 }
                             }
                         catch(System.Exception e)
@@ -39,10 +38,15 @@ namespace ExtendedAPI
                 }
             }
 
-        //Anyade las investigaciones
+        [ModLoader.ModCallback(ModLoader.EModCallbackType.AfterItemTypesDefined, "MyFirstMod.AfterItemTypesDefined")]
+        public static void AfterItemTypesDefined()
+            {
+            Types.TypeManager.RegisterCallBacks();
+            }
+
+        //Add Recipes
         [ModLoader.ModCallback(ModLoader.EModCallbackType.AfterItemTypesDefined, "Khanx.ExtendedAPI.RegisterRecipes")]
         [ModLoader.ModCallbackDependsOn("pipliz.server.recipeplayerload")]  //After loading the NPC & player recipes
-        //[ModLoader.ModCallback(ModLoader.EModCallbackType.AfterWorldLoad, "Khanx.ExtendedAPI.RegisterRecipes")]
         public static void RegisterAutoRecipes()
             {
             Recipes.RecipeManager.Register();
