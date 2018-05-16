@@ -19,15 +19,12 @@ namespace ExtendedAPI
                         {
                         try
                             {
-                            //Recipe
-                            if(type.IsDefined(typeof(Recipes.AutoLoadRecipeAttribute), true))
-                                {
+                            if(type.IsDefined(typeof(Recipes.AutoLoadRecipeAttribute), true))       //Recipes
                                 Recipes.RecipeManager.Add(type);
-                                }
-                            else if(type.IsDefined(typeof(Types.AutoLoadTypeAttribute), true))
-                                {
+                            else if(type.IsDefined(typeof(Types.AutoLoadTypeAttribute), true))      //Types
                                 Types.TypeManager.Add(type);
-                                }
+                            else if(type.IsDefined(typeof(Commands.AutoLoadCommandAttribute), true))   //Commands
+                                Commands.CommandManager.Add(type);
                             }
                         catch(System.Exception e)
                             {
@@ -38,10 +35,10 @@ namespace ExtendedAPI
                 }
             }
 
-        [ModLoader.ModCallback(ModLoader.EModCallbackType.AfterItemTypesDefined, "Khanx.ExtendedAPI.RegisterCallBacksOfTypes")]
-        public static void RegisterCallBacksOfTypes()
+        [ModLoader.ModCallbackAttribute(ModLoader.EModCallbackType.AfterStartup, "Khanx.ExtendedAPI.RegisterCommand")]
+        public static void RegisterCommand()
             {
-            Types.TypeManager.RegisterCallBacks();
+            Commands.CommandManager.Register();
             }
 
         //Add Recipes
@@ -64,10 +61,19 @@ namespace ExtendedAPI
             Recipes.RecipeManager.OnNPCCraftedRecipe(job, recipe.Name, results);
             }
 
+        //Register OnAdd / On RemoveBlock
+        [ModLoader.ModCallback(ModLoader.EModCallbackType.AfterItemTypesDefined, "Khanx.ExtendedAPI.RegisterCallBacksOfTypes")]
+        public static void RegisterCallBacksOfTypes()
+            {
+            Types.TypeManager.RegisterCallBacks();
+            }
+
         [ModLoader.ModCallback(ModLoader.EModCallbackType.OnPlayerClicked, "Khanx.ExtendedAPI.OnPlayerClickedTypes")]
         public static void OnPlayerClickedTypes(Players.Player player, Box<Shared.PlayerClickedData> boxedData)
             {
             Types.TypeManager.OnPlayerClicked(player, boxedData);
             }
+
+
         }
     }
