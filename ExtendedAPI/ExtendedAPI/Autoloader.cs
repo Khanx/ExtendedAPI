@@ -38,8 +38,8 @@ namespace ExtendedAPI
                 }
             }
 
-        [ModLoader.ModCallback(ModLoader.EModCallbackType.AfterItemTypesDefined, "MyFirstMod.AfterItemTypesDefined")]
-        public static void AfterItemTypesDefined()
+        [ModLoader.ModCallback(ModLoader.EModCallbackType.AfterItemTypesDefined, "Khanx.ExtendedAPI.RegisterCallBacksOfTypes")]
+        public static void RegisterCallBacksOfTypes()
             {
             Types.TypeManager.RegisterCallBacks();
             }
@@ -52,17 +52,22 @@ namespace ExtendedAPI
             Recipes.RecipeManager.Register();
             }
 
-        [ModLoader.ModCallback(ModLoader.EModCallbackType.OnPlayerRecipeSettingChanged, "khanx.extendedapi.OnPlayerRecipeSettingChanged")]
+        [ModLoader.ModCallback(ModLoader.EModCallbackType.OnPlayerRecipeSettingChanged, "Khanx.ExtendedAPI.OnPlayerRecipeSettingChanged")]
         public static void OnPlayerRecipeSettingChanged(RecipeStorage.PlayerRecipeStorage storage, Recipe recipe, Box<RecipeStorage.RecipeSetting> recipeSetting)
             {
             Recipes.RecipeManager.OnPlayerRecipeSettingChanged(storage, recipe.Name, recipeSetting);
             }
 
-        [ModLoader.ModCallback(ModLoader.EModCallbackType.OnNPCCraftedRecipe, "khanx.extendedapi.OnPlayerRecipeSettingChanged")]
+        [ModLoader.ModCallback(ModLoader.EModCallbackType.OnNPCCraftedRecipe, "Khanx.ExtendedAPI.OnPlayerRecipeSettingChanged")]
         public static void OnNPCCraftedRecipe(NPC.IJob job, Recipe recipe, List<InventoryItem> results)
             {
             Recipes.RecipeManager.OnNPCCraftedRecipe(job, recipe.Name, results);
             }
 
+        [ModLoader.ModCallback(ModLoader.EModCallbackType.OnPlayerClicked, "Khanx.ExtendedAPI.OnPlayerClickedTypes")]
+        public static void OnPlayerClickedTypes(Players.Player player, Box<Shared.PlayerClickedData> boxedData)
+            {
+            Types.TypeManager.OnPlayerClicked(player, boxedData);
+            }
         }
     }

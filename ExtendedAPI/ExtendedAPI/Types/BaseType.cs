@@ -29,6 +29,38 @@
         /// <param name="onUpdateAdjacent">Info, check the structure</param>
         public virtual void RegisterOnUpdateAdjacent(ItemTypesServer.OnUpdateData onUpdateAdjacent)
             { }
+
+        /// <summary>
+        /// Will be triggered when a player {player} makes left click on the block (the block must be in the world)
+        /// </summary>
+        /// <param name="player"> Player who makes the action </param>
+        /// <param name="boxedData"> Ask ZUN </param>
+        public virtual void OnLeftClickOn(Players.Player player, Pipliz.Box<Shared.PlayerClickedData> boxedData)
+            { }
+
+        /// <summary>
+        /// Will be triggered when a player {player} makes right click on the block (the block must be in the world)
+        /// </summary>
+        /// <param name="player"> Player who makes the action </param>
+        /// <param name="boxedData"> Ask ZUN </param>
+        public virtual void OnRightClickOn(Players.Player player, Pipliz.Box<Shared.PlayerClickedData> boxedData)
+            { }
+
+        /// <summary>
+        /// Will be triggered when a player {player} makes left click with this type selected
+        /// </summary>
+        /// <param name="player"> Player who makes the action </param>
+        /// <param name="boxedData"> Ask ZUN </param>
+        public virtual void OnLeftClickWith(Players.Player player, Pipliz.Box<Shared.PlayerClickedData> boxedData)
+            { }
+
+        /// <summary>
+        /// Will be triggered when a player {player} makes right click with this type selected
+        /// </summary>
+        /// <param name="player"> Player who makes the action </param>
+        /// <param name="boxedData"> Ask ZUN </param>
+        public virtual void OnRightClickWith(Players.Player player, Pipliz.Box<Shared.PlayerClickedData> boxedData)
+            { }
         }
 
     }

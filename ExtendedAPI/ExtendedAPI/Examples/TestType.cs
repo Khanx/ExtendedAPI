@@ -1,5 +1,6 @@
 ﻿using ExtendedAPI.Types;
 using Pipliz;
+using Shared;
 
 namespace ExtendedAPI.Examples
     {
@@ -24,6 +25,26 @@ namespace ExtendedAPI.Examples
         public override void RegisterOnUpdateAdjacent(ItemTypesServer.OnUpdateData onUpdateAdjacent)
             {
             Pipliz.Chatting.Chat.SendToAll("Testing RegisterOnUpdateAdjacent");
+            }
+
+        public override void OnLeftClickOn(Players.Player player, Box<PlayerClickedData> boxedData)
+            {
+            Pipliz.Chatting.Chat.SendToAll("Testing OnLeftClickOn");
+            }
+
+        public override void OnLeftClickWith(Players.Player player, Box<PlayerClickedData> boxedData)
+            {
+            Pipliz.Chatting.Chat.SendToAll("Testing OnLeftClickWith");
+            }
+
+        public override void OnRightClickOn(Players.Player player, Box<PlayerClickedData> boxedData)
+            {
+            Pipliz.Chatting.Chat.SendToAll("Testing OnRightClickOn");
+            }
+
+        public override void OnRightClickWith(Players.Player player, Box<PlayerClickedData> boxedData)
+            {
+            Pipliz.Chatting.Chat.SendToAll("Testing OnRightClickWith");
             }
         }
     }
