@@ -4,7 +4,7 @@ using ChatCommands;
 
 namespace ExtendedAPI.Commands
     {
-    class BaseCommand : IChatCommand
+    public class BaseCommand : IChatCommand
         {
         public List<string> startWith = new List<string>();
 
