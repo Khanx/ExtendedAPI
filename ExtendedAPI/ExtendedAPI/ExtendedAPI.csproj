@@ -53,6 +53,9 @@
     <Compile Include="Recipes\BaseRecipe.cs" />
     <Compile Include="Recipes\RecipeManager.cs" />
     <Compile Include="Examples\TestRecipe.cs" />
+    <Compile Include="Types\AutoLoadTypeAttribute.cs" />
+    <Compile Include="Types\BaseType.cs" />
+    <Compile Include="Types\TypeManager.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -17,8 +17,6 @@ namespace ExtendedAPI
             IsOptional = false;
             DefaultLimit = 50;
             DefaultPriority = 0;
-            OnChangingSetting = true;       //Put true if you will extend OnPlayerRecipeSettingChanged
-            OnProducingRecipeByNPC = true; //Put true if you will extend OnNPCCraftedRecipe
 
             var iron = new InventoryItem(BuiltinBlocks.BronzeIngot, 2);
             var planks = new InventoryItem(BuiltinBlocks.Planks, 4);

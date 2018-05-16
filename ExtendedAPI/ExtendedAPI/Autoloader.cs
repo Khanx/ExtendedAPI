@@ -24,6 +24,11 @@ namespace ExtendedAPI
                                 {
                                 Recipes.RecipeManager.Add(type);
                                 }
+                            else if(type.IsDefined(typeof(Types.AutoLoadTypeAttribute), true))
+                                {
+                                var newtype = System.Activator.CreateInstance(type) as Types.BaseType;
+                                Types.TypeManager.Add(newtype);
+                                }
                             }
                         catch(System.Exception e)
                             {

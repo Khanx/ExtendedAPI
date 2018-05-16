@@ -33,7 +33,7 @@ namespace ExtendedAPI.Recipes
                             RecipePlayer.AddDefaultRecipe(recipe.GetRecipe());
                         RecipeStorage.AddDefaultLimitTypeRecipe(recipe.ProducedByJob, recipe.GetRecipe());
                         }
-                    if(recipe.OnChangingSetting || recipe.OnProducingRecipeByNPC)
+                    if(toRegister[i].GetMethod("OnPlayerRecipeSettingChanged").DeclaringType == toRegister[i] || toRegister[i].GetMethod("OnNPCCraftedRecipe").DeclaringType == toRegister[i])
                         toCall.Add(recipe.Name, recipe);
                     }
                 }

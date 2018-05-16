@@ -15,8 +15,6 @@ namespace ExtendedAPI.Recipes
         public bool IsOptional = false;
         public int DefaultLimit = 2000000000;
         public int DefaultPriority = 0;
-        public bool OnChangingSetting = false;        //Put true if you will extend OnPlayerRecipeSettingChanged
-        public bool OnProducingRecipeByNPC = false;   //Put true if you will extend OnNPCCraftedRecipe
 
         protected void AddRequirement(InventoryItem item)
             {
