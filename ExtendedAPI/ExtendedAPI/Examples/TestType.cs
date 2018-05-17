@@ -1,7 +1,9 @@
-﻿using ExtendedAPI.Types;
+﻿//#define EXAMPLES
+using ExtendedAPI.Types;
 using Pipliz;
 using Shared;
 
+#if EXAMPLES
 namespace ExtendedAPI.Examples
     {
     [AutoLoadType]
@@ -48,3 +50,4 @@ namespace ExtendedAPI.Examples
             }
         }
     }
+#endif

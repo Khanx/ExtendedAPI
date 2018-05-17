@@ -1,9 +1,11 @@
-﻿using BlockTypes.Builtin;
+﻿//#define EXAMPLES
+using BlockTypes.Builtin;
 using ExtendedAPI.Recipes;
 using NPC;
 using Pipliz;
 using System.Collections.Generic;
 
+#if EXAMPLES
 namespace ExtendedAPI
     {
     [AutoLoadRecipe]
@@ -36,3 +38,4 @@ namespace ExtendedAPI
             }
         }
     }
+#endif

@@ -18,7 +18,7 @@ namespace ExtendedAPI.Commands
             return isCommand;
             }
 
-        public virtual bool TryDoCommand(Players.Player player, string chat)
+        public virtual bool TryDoCommand(Players.Player player, string arg)
             {
             return false;
             }

@@ -1,5 +1,7 @@
-﻿using ExtendedAPI.Commands;
+﻿//#define EXAMPLES
+using ExtendedAPI.Commands;
 
+#if EXAMPLES
 namespace ExtendedAPI.Examples
     {
 
@@ -24,3 +26,4 @@ namespace ExtendedAPI.Examples
             }
         }
     }
+#endif
