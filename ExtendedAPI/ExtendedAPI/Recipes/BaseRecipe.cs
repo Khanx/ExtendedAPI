@@ -7,33 +7,7 @@ namespace ExtendedAPI.Recipes
 
     public class BaseRecipe
         {
-        public string Name;
-        public bool PlayerCanMakeIt = false;
-        public string ProducedByJob = "";
-        public List<InventoryItem> Requirements;
-        public List<InventoryItem> Results;
-        public bool IsOptional = false;
-        public int DefaultLimit = 2000000000;
-        public int DefaultPriority = 0;
-
-        protected void AddRequirement(InventoryItem item)
-            {
-            if(Requirements == null)
-                Requirements = new List<InventoryItem>();
-            Requirements.Add(item);
-            }
-
-        protected void AddResult(InventoryItem item)
-            {
-            if(Results == null)
-                Results = new List<InventoryItem>();
-            Results.Add(item);
-            }
-
-        public Recipe GetRecipe()
-            {
-            return new Recipe(Name, Requirements, Results, DefaultLimit, IsOptional, DefaultPriority);
-            }
+        public string key;
 
         /// <summary>
         /// Don't store the Box<>, it's re-used.

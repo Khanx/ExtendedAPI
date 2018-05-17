@@ -35,18 +35,18 @@ namespace ExtendedAPI
                 }
             }
 
-        [ModLoader.ModCallbackAttribute(ModLoader.EModCallbackType.AfterStartup, "Khanx.ExtendedAPI.RegisterCommand")]
+        [ModLoader.ModCallback(ModLoader.EModCallbackType.AfterStartup, "Khanx.ExtendedAPI.RegisterCommand")]
         public static void RegisterCommand()
             {
             Commands.CommandManager.Register();
             }
 
-        //Add Recipes
-        [ModLoader.ModCallback(ModLoader.EModCallbackType.AfterItemTypesDefined, "Khanx.ExtendedAPI.RegisterRecipes")]
+        //Add Recipes Callbacks
+        [ModLoader.ModCallback(ModLoader.EModCallbackType.AfterItemTypesDefined, "Khanx.ExtendedAPI.RegisterCallBacksOfRecipes")]
         [ModLoader.ModCallbackDependsOn("pipliz.server.recipeplayerload")]  //After loading the NPC & player recipes
-        public static void RegisterAutoRecipes()
+        public static void RegisterCallBacksOfRecipes()
             {
-            Recipes.RecipeManager.Register();
+            Recipes.RecipeManager.RegisterCallBacks();
             }
 
         [ModLoader.ModCallback(ModLoader.EModCallbackType.OnPlayerRecipeSettingChanged, "Khanx.ExtendedAPI.OnPlayerRecipeSettingChanged")]

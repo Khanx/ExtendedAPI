@@ -14,30 +14,14 @@ namespace ExtendedAPI.Recipes
             toRegister.Add(type);
             }
 
-        public static void Register()
+        public static void RegisterCallBacks()
             {
             for(int i = 0; i < toRegister.Count; i++)
                 {
                 var recipe = Activator.CreateInstance(toRegister[i]) as Recipes.BaseRecipe;
-                if(recipe != null)
-                    {
-                    if(recipe.IsOptional)
-                        {
-                        if(recipe.PlayerCanMakeIt)
-                            RecipePlayer.AddOptionalRecipe(recipe.GetRecipe());
-                        RecipeStorage.AddOptionalLimitTypeRecipe(recipe.ProducedByJob, recipe.GetRecipe());
-                        }
-                    else
-                        {
-                        if(recipe.PlayerCanMakeIt)
-                            RecipePlayer.AddDefaultRecipe(recipe.GetRecipe());
-                        RecipeStorage.AddDefaultLimitTypeRecipe(recipe.ProducedByJob, recipe.GetRecipe());
-                        }
-                    if(toRegister[i].GetMethod("OnPlayerRecipeSettingChanged").DeclaringType == toRegister[i] || toRegister[i].GetMethod("OnNPCCraftedRecipe").DeclaringType == toRegister[i])
-                        toCall.Add(recipe.Name, recipe);
-                    }
+
+                toCall.Add(recipe.key, recipe);
                 }
-            toRegister.Clear();
             }
 
         public static void OnPlayerRecipeSettingChanged(RecipeStorage.PlayerRecipeStorage storage, string name, Box<RecipeStorage.RecipeSetting> recipeSetting)

@@ -13,18 +13,7 @@ namespace ExtendedAPI
         {
         public TestRecipe()
             {
-            Name = "New Recipe";
-            PlayerCanMakeIt = true;
-            ProducedByJob = "pipliz.crafter";
-            IsOptional = false;
-            DefaultLimit = 50;
-            DefaultPriority = 0;
-
-            var iron = new InventoryItem(BuiltinBlocks.BronzeIngot, 2);
-            var planks = new InventoryItem(BuiltinBlocks.Planks, 4);
-
-            AddRequirement(iron);
-            AddResult(planks);
+            key = "pipliz.crafter.plankstemperate";
             }
 
         public override void OnNPCCraftedRecipe(IJob job, List<InventoryItem> results)
