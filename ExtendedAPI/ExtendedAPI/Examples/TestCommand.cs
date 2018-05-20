@@ -10,15 +10,16 @@ namespace ExtendedAPI.Examples
     {
         public TestCommand()
         {
-            startWith.Add("/my_command");
+            equalsTo.Add("/command");   //Command without args
+            startWith.Add("/command_arg");  //Command with args
         }
 
-        public override bool TryDoCommand(Players.Player player, string chat)
+        public override bool TryDoCommand(Players.Player player, string command)
         {
             if(player == null || player.ID == NetworkID.Server)
                 return true;
 
-            var args = ChatCommands.CommandManager.SplitCommand(chat);
+            var args = ChatCommands.CommandManager.SplitCommand(command);
             foreach(var arg in args)
                 Pipliz.Chatting.Chat.SendToAll(string.Format("Argumentos: {0}", arg));
 

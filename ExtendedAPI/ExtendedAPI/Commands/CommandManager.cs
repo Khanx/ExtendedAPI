@@ -4,18 +4,20 @@ using ChatCommands;
 
 namespace ExtendedAPI.Commands
 {
+    [ModLoader.ModManager]
     public static class CommandManager
     {
-        private static List<Type> toRegister = new List<Type>();
+        private static List<Type> commands = new List<Type>();
 
         public static void Add(Type type)
         {
-            toRegister.Add(type);
+            commands.Add(type);
         }
 
-        public static void Register()
+        [ModLoader.ModCallback(ModLoader.EModCallbackType.AfterStartup, "Khanx.ExtendedAPI.RegisterCommands")]
+        public static void RegisterCommands()
         {
-            foreach(var command in toRegister)
+            foreach(var command in commands)
             {
                 BaseCommand newCommand = Activator.CreateInstance(command) as BaseCommand;
                 ChatCommands.CommandManager.RegisterCommand(newCommand);

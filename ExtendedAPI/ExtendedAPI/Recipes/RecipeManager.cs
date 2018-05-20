@@ -4,40 +4,34 @@ using System.Collections.Generic;
 
 namespace ExtendedAPI.Recipes
 {
+    [ModLoader.ModManager]
     public static class RecipeManager
     {
-        private static List<Type> toRegister = new List<Type>();
-        private static Dictionary<string, BaseRecipe> toCall = new Dictionary<string, BaseRecipe>();
+        private static Dictionary<string, BaseRecipe> recipes = new Dictionary<string, BaseRecipe>();
 
         public static void Add(Type type)
         {
-            toRegister.Add(type);
+            BaseRecipe newRecipe = Activator.CreateInstance(type) as BaseRecipe;
+
+            recipes.Add(newRecipe.key, newRecipe);
         }
 
-        public static void RegisterCallBacks()
+        [ModLoader.ModCallback(ModLoader.EModCallbackType.OnPlayerRecipeSettingChanged, "Khanx.ExtendedAPI.OnPlayerRecipeSettingChanged")]
+        public static void OnPlayerRecipeSettingChanged(RecipeStorage.PlayerRecipeStorage storage, Recipe recipe, Box<RecipeStorage.RecipeSetting> recipeSetting)
         {
-            for(int i = 0; i < toRegister.Count; i++)
-            {
-                var recipe = Activator.CreateInstance(toRegister[i]) as Recipes.BaseRecipe;
+            BaseRecipe bRecipe;
 
-                toCall.Add(recipe.key, recipe);
-            }
+            if(recipes.TryGetValue(recipe.Name, out bRecipe))
+                bRecipe.OnPlayerRecipeSettingChanged(storage, recipeSetting);
         }
 
-        public static void OnPlayerRecipeSettingChanged(RecipeStorage.PlayerRecipeStorage storage, string name, Box<RecipeStorage.RecipeSetting> recipeSetting)
+        [ModLoader.ModCallback(ModLoader.EModCallbackType.OnNPCCraftedRecipe, "Khanx.ExtendedAPI.OnNPCCraftedRecipe")]
+        public static void OnNPCCraftedRecipe(NPC.IJob job, Recipe recipe, List<InventoryItem> results)
         {
-            BaseRecipe recipe;
+            BaseRecipe bRecipe;
 
-            if(toCall.TryGetValue(name, out recipe))
-                recipe.OnPlayerRecipeSettingChanged(storage, recipeSetting);
-        }
-
-        public static void OnNPCCraftedRecipe(NPC.IJob job, string name, List<InventoryItem> results)
-        {
-            BaseRecipe recipe;
-
-            if(toCall.TryGetValue(name, out recipe))
-                recipe.OnNPCCraftedRecipe(job, results);
+            if(recipes.TryGetValue(recipe.Name, out bRecipe))
+                bRecipe.OnNPCCraftedRecipe(job, results);
         }
     }
 }

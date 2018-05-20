@@ -6,7 +6,7 @@ namespace ExtendedAPI.Recipes
 {
     public class BaseRecipe
     {
-        public string key;
+        public string key { get; protected set; }
 
         /// <summary>
         /// Don't store the Box<>, it's re-used.
@@ -16,9 +16,7 @@ namespace ExtendedAPI.Recipes
         /// </summary>
         /// <param name="storage">the players' recipe settings storage</param>
         /// <param name="recipeSetting">the new setting for the recipe</param>
-        public virtual void OnPlayerRecipeSettingChanged(RecipeStorage.PlayerRecipeStorage storage, Pipliz.Box<RecipeStorage.RecipeSetting> recipeSetting)
-        {
-        }
+        public virtual void OnPlayerRecipeSettingChanged(RecipeStorage.PlayerRecipeStorage storage, Pipliz.Box<RecipeStorage.RecipeSetting> recipeSetting) { }
 
         /// <summary>
         /// Triggered when an npc doing {job} crafts this recipe, creating {results}
@@ -29,8 +27,6 @@ namespace ExtendedAPI.Recipes
         /// </summary>
         /// <param name="job">Job that has used this recipe</param>
         /// <param name="results">Product of the recipe</param>
-        public virtual void OnNPCCraftedRecipe(IJob job, List<InventoryItem> results)
-        {
-        }
+        public virtual void OnNPCCraftedRecipe(IJob job, List<InventoryItem> results) { }
     }
 }

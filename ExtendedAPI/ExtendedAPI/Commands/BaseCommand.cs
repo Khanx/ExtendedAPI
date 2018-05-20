@@ -6,21 +6,25 @@ namespace ExtendedAPI.Commands
 {
     public class BaseCommand : IChatCommand
     {
-        public List<string> startWith = new List<string>();
+        protected List<string> equalsTo = new List<string>(); //Use when a command has no arguments
+        protected List<string> startWith = new List<string>(); //Use when a command has arguments
 
         public bool IsCommand(string chat)
         {
-            bool isCommand = false;
-            foreach(var start in startWith)
+            foreach(string start in startWith)
                 if(chat.StartsWith(start, StringComparison.OrdinalIgnoreCase))
-                    isCommand = true;
+                    return true;
 
-            return isCommand;
+            foreach(string start in equalsTo)
+                if(chat.Equals(start, StringComparison.OrdinalIgnoreCase))
+                    return true;
+
+            return false;
         }
 
-        public virtual bool TryDoCommand(Players.Player player, string arg)
+        public virtual bool TryDoCommand(Players.Player player, string command)
         {
-            return false;
+            throw new NotImplementedException();
         }
     }
 }
