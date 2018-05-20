@@ -3,10 +3,9 @@ using System.Collections.Generic;
 
 
 namespace ExtendedAPI.Recipes
-    {
-
+{
     public class BaseRecipe
-        {
+    {
         public string key;
 
         /// <summary>
@@ -18,8 +17,8 @@ namespace ExtendedAPI.Recipes
         /// <param name="storage">the players' recipe settings storage</param>
         /// <param name="recipeSetting">the new setting for the recipe</param>
         public virtual void OnPlayerRecipeSettingChanged(RecipeStorage.PlayerRecipeStorage storage, Pipliz.Box<RecipeStorage.RecipeSetting> recipeSetting)
-            {
-            }
+        {
+        }
 
         /// <summary>
         /// Triggered when an npc doing {job} crafts this recipe, creating {results}
@@ -31,8 +30,7 @@ namespace ExtendedAPI.Recipes
         /// <param name="job">Job that has used this recipe</param>
         /// <param name="results">Product of the recipe</param>
         public virtual void OnNPCCraftedRecipe(IJob job, List<InventoryItem> results)
-            {
-            }
+        {
         }
-
     }
+}

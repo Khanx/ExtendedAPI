@@ -3,18 +3,18 @@ using ExtendedAPI.Commands;
 
 #if EXAMPLES
 namespace ExtendedAPI.Examples
-    {
+{
 
     [AutoLoadCommand]
     class TestCommand : BaseCommand
-        {
+    {
         public TestCommand()
-            {
+        {
             startWith.Add("/my_command");
-            }
+        }
 
         public override bool TryDoCommand(Players.Player player, string chat)
-            {
+        {
             if(player == null || player.ID == NetworkID.Server)
                 return true;
 
@@ -23,7 +23,7 @@ namespace ExtendedAPI.Examples
                 Pipliz.Chatting.Chat.SendToAll(string.Format("Argumentos: {0}", arg));
 
             return true;
-            }
         }
     }
+}
 #endif

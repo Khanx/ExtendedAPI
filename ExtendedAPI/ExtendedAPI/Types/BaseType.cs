@@ -1,8 +1,7 @@
 ﻿namespace ExtendedAPI.Types
-    {
-
+{
     public class BaseType
-        {
+    {
         public string key;
 
         /// <summary>
@@ -12,7 +11,7 @@
         /// <param name="newType"> ¿? Ask ZUN</param>
         /// <param name="causedBy"> Player who has added the block</param>
         public virtual void RegisterOnAdd(Pipliz.Vector3Int position, ushort newType, Players.Player causedBy)
-            { }
+        { }
 
         /// <summary>
         /// When the block is removed from the world in the position {position} by the player {causedBy}
@@ -21,14 +20,14 @@
         /// <param name="newType"> ¿? Ask ZUN</param>
         /// <param name="causedBy"> Player who has removed the block</param>
         public virtual void RegisterOnRemove(Pipliz.Vector3Int position, ushort type, Players.Player causedBy)
-            { }
+        { }
 
         /// <summary>
         /// Will be triggered if a block directly adjacent to it (no diagonals) is changed
         /// </summary>
         /// <param name="onUpdateAdjacent">Info, check the structure</param>
         public virtual void RegisterOnUpdateAdjacent(ItemTypesServer.OnUpdateData onUpdateAdjacent)
-            { }
+        { }
 
         /// <summary>
         /// Will be triggered when a player {player} makes left click on the block (the block must be in the world)
@@ -36,7 +35,7 @@
         /// <param name="player"> Player who makes the action </param>
         /// <param name="boxedData"> Ask ZUN </param>
         public virtual void OnLeftClickOn(Players.Player player, Pipliz.Box<Shared.PlayerClickedData> boxedData)
-            { }
+        { }
 
         /// <summary>
         /// Will be triggered when a player {player} makes right click on the block (the block must be in the world)
@@ -44,7 +43,7 @@
         /// <param name="player"> Player who makes the action </param>
         /// <param name="boxedData"> Ask ZUN </param>
         public virtual void OnRightClickOn(Players.Player player, Pipliz.Box<Shared.PlayerClickedData> boxedData)
-            { }
+        { }
 
         /// <summary>
         /// Will be triggered when a player {player} makes left click with this type selected
@@ -52,7 +51,7 @@
         /// <param name="player"> Player who makes the action </param>
         /// <param name="boxedData"> Ask ZUN </param>
         public virtual void OnLeftClickWith(Players.Player player, Pipliz.Box<Shared.PlayerClickedData> boxedData)
-            { }
+        { }
 
         /// <summary>
         /// Will be triggered when a player {player} makes right click with this type selected
@@ -60,7 +59,6 @@
         /// <param name="player"> Player who makes the action </param>
         /// <param name="boxedData"> Ask ZUN </param>
         public virtual void OnRightClickWith(Players.Player player, Pipliz.Box<Shared.PlayerClickedData> boxedData)
-            { }
-        }
-
+        { }
     }
+}
