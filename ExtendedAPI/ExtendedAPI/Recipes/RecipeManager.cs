@@ -9,11 +9,16 @@ namespace ExtendedAPI.Recipes
     {
         private static Dictionary<string, BaseRecipe> recipes = new Dictionary<string, BaseRecipe>();
 
-        public static void Add(Type type)
+        public static void Add(Type recipe)
         {
-            BaseRecipe newRecipe = Activator.CreateInstance(type) as BaseRecipe;
+            BaseRecipe newRecipe = Activator.CreateInstance(recipe) as BaseRecipe;
 
             recipes.Add(newRecipe.key, newRecipe);
+        }
+
+        public static bool TryGet(string key, out BaseRecipe recipe)
+        {
+            return recipes.TryGetValue(key, out recipe);
         }
 
         [ModLoader.ModCallback(ModLoader.EModCallbackType.OnPlayerRecipeSettingChanged, "Khanx.ExtendedAPI.OnPlayerRecipeSettingChanged")]

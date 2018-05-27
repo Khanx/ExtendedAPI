@@ -17,6 +17,11 @@ namespace ExtendedAPI.Types
             types.Add(newType.key, newType);
         }
 
+        public static bool TryGet(string key, out BaseType type)
+        {
+            return types.TryGetValue(key, out type);
+        }
+
         [ModLoader.ModCallback(ModLoader.EModCallbackType.AfterItemTypesDefined, "Khanx.ExtendedAPI.Register_OnAddType_OnRemoveType_OnUpdateAdjacentType")]
         public static void Register_OnAddType_OnRemoveType_OnUpdateAdjacentType()
         {
