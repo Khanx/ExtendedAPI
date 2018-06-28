@@ -6,8 +6,8 @@ namespace ExtendedAPI.Commands
 {
     public class BaseCommand : IChatCommand
     {
-        protected List<string> equalsTo = new List<string>(); //Use when a command has no arguments
-        protected List<string> startWith = new List<string>(); //Use when a command has arguments
+        public readonly List<string> equalsTo = new List<string>(); //Use when a command has no arguments
+        public readonly List<string> startWith = new List<string>(); //Use when a command has arguments
 
         public bool IsCommand(string chat)
         {

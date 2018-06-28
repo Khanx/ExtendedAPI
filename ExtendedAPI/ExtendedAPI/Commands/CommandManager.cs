@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using ChatCommands;
+using Pipliz;
 
 namespace ExtendedAPI.Commands
 {
@@ -20,6 +20,13 @@ namespace ExtendedAPI.Commands
             foreach(var command in commands)
             {
                 BaseCommand newCommand = Activator.CreateInstance(command) as BaseCommand;
+
+                if(newCommand.equalsTo.Count == 0 && newCommand.startWith.Count == 0)
+                {
+                    Log.Write("<color=red>Trying to add a BaseCommand without defining the equalsTo and startWith property.</color>");
+                    continue;
+                }
+
                 ChatCommands.CommandManager.RegisterCommand(newCommand);
             }
         }
