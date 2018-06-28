@@ -6,7 +6,7 @@ namespace ExtendedAPI.Recipes
 {
     public class BaseRecipe
     {
-        public string key { get; protected set; }
+        public string key { get; protected set; } = "NOT_INIZILIZED";
 
         /// <summary>
         /// Don't store the Box<>, it's re-used.

@@ -2,7 +2,7 @@
 {
     public class BaseType
     {
-        public string key { get; protected set; }
+        public string key { get; protected set; } = "NOT_INIZILIZED";
 
         /// <summary>
         /// When this type is added on the world in the position {position} by the player {causedBy}

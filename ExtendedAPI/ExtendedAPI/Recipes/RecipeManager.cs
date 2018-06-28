@@ -13,6 +13,12 @@ namespace ExtendedAPI.Recipes
         {
             BaseRecipe newRecipe = Activator.CreateInstance(recipe) as BaseRecipe;
 
+            if(newRecipe.key.Equals("NOT_INIZILIZED"))
+            {
+                Log.Write("<color=red>Trying to add a BaseRecipe without defining the key property.</color>");
+                return;
+            }
+
             if(!recipes.ContainsKey(newRecipe.key))
                 recipes.Add(newRecipe.key, newRecipe);
             else

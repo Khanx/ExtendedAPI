@@ -14,6 +14,12 @@ namespace ExtendedAPI.Types
         {
             BaseType newType = Activator.CreateInstance(type) as BaseType;
 
+            if(newType.key.Equals("NOT_INIZILIZED"))
+            {
+                Log.Write("<color=red>Trying to add a BaseType without defining the key property.</color>");
+                return;
+            }
+
             if(!types.ContainsKey(newType.key))
                 types.Add(newType.key, newType);
             else
