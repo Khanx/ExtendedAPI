@@ -32,6 +32,13 @@ namespace ExtendedAPI.Types
             {
                 Type typeOftype = type.GetType();
 
+                if(!ItemTypes.IndexLookup.IndexLookupTable.ContainsValue(type.key))
+                {
+                    Log.Write(string.Format("<color=red>There is no type called {0}</color>"), type.key);
+                    types.Remove(type.key);
+                    continue;
+                }
+
                 if(typeOftype.GetMethod("RegisterOnAdd").DeclaringType == typeOftype)
                     ItemTypesServer.RegisterOnAdd(type.key, type.RegisterOnAdd);
 
