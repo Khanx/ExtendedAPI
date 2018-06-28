@@ -14,7 +14,10 @@ namespace ExtendedAPI.Types
         {
             BaseType newType = Activator.CreateInstance(type) as BaseType;
 
-            types.Add(newType.key, newType);
+            if(!types.ContainsKey(newType.key))
+                types.Add(newType.key, newType);
+            else
+                Log.Write(string.Format("<color=red>{0} already has a callback registered in ExtendedAPI.</color>", newType.key));
         }
 
         public static bool TryGet(string key, out BaseType type)
@@ -43,35 +46,45 @@ namespace ExtendedAPI.Types
         [ModLoader.ModCallback(ModLoader.EModCallbackType.OnPlayerClicked, "Khanx.ExtendedAPI.OnPlayerClickedType")]
         public static void OnPlayerClicked(Players.Player player, Box<Shared.PlayerClickedData> playerClickedData)
         {
-            BaseType myItem;
-            bool clickOnType;   // Has clicked ON type (block in world)
-            bool clickWithType;   // Has clicked WITH type (on hand)
-            string typeClicked;
-            string typeOnHand;
+            BaseType myTypeOn = null;
+            BaseType myTypeWith = null;
+            ItemTypes.ItemType typeOn = null;
+            ItemTypes.ItemType typeWith = null;
 
-            clickOnType = ItemTypes.IndexLookup.IndexLookupTable.TryGetValue(playerClickedData.item1.typeHit, out typeClicked);
-            clickWithType = ItemTypes.IndexLookup.IndexLookupTable.TryGetValue(playerClickedData.item1.typeSelected, out typeOnHand);
+            bool clickOnType = playerClickedData.item1.typeHit != 0;   // Has clicked ON type (block in world)
+            bool clickWithType = playerClickedData.item1.typeSelected != 0;   // Has clicked WITH type (on hand)
 
-            if(playerClickedData.item1.clickType == ClickType.Left)
+            if(!clickOnType && !clickWithType)
+                return;
+
+            if(clickOnType)
+                typeOn = ItemTypes.GetType(playerClickedData.item1.typeHit);
+
+            if(clickWithType)
+                typeWith = ItemTypes.GetType(playerClickedData.item1.typeSelected);
+
+            while(typeOn != null && !types.TryGetValue(typeOn.Name, out myTypeOn))
+                typeOn = typeOn.ParentItemType;
+
+            while(typeWith != null && !types.TryGetValue(typeWith.Name, out myTypeWith))
+                typeWith = typeWith.ParentItemType;
+
+            if(null != myTypeOn)
             {
-                if(clickWithType)
-                    if(types.TryGetValue(typeOnHand, out myItem))
-                        myItem.OnLeftClickWith(player, playerClickedData);
-
-                if(clickOnType)
-                    if(types.TryGetValue(typeClicked, out myItem))
-                        myItem.OnLeftClickOn(player, playerClickedData);
+                if(playerClickedData.item1.clickType == ClickType.Left)
+                    myTypeOn.OnLeftClickOn(player, playerClickedData);
+                else if(playerClickedData.item1.clickType == ClickType.Right)
+                    myTypeOn.OnRightClickOn(player, playerClickedData);
             }
-            else if(playerClickedData.item1.clickType == ClickType.Right)
-            {
-                if(clickWithType)
-                    if(types.TryGetValue(typeOnHand, out myItem))
-                        myItem.OnRightClickWith(player, playerClickedData);
 
-                if(clickOnType)
-                    if(types.TryGetValue(typeClicked, out myItem))
-                        myItem.OnRightClickOn(player, playerClickedData);
+            if(null != myTypeWith)
+            {
+                if(playerClickedData.item1.clickType == ClickType.Left)
+                    myTypeWith.OnLeftClickWith(player, playerClickedData);
+                else if(playerClickedData.item1.clickType == ClickType.Right)
+                    myTypeWith.OnRightClickWith(player, playerClickedData);
             }
         }
+
     }
 }

@@ -13,7 +13,10 @@ namespace ExtendedAPI.Recipes
         {
             BaseRecipe newRecipe = Activator.CreateInstance(recipe) as BaseRecipe;
 
-            recipes.Add(newRecipe.key, newRecipe);
+            if(!recipes.ContainsKey(newRecipe.key))
+                recipes.Add(newRecipe.key, newRecipe);
+            else
+                Log.Write(string.Format("<color=red>{0} already has a callback registered in ExtendedAPI.</color>", newRecipe.key));
         }
 
         public static bool TryGet(string key, out BaseRecipe recipe)
