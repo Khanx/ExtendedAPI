@@ -10,20 +10,34 @@ namespace ExtendedAPI.Types
     {
         private static Dictionary<string, BaseType> types = new Dictionary<string, BaseType>();
 
-        public static void Add(Type type)
+        [ModLoader.ModCallback(ModLoader.EModCallbackType.AfterItemTypesDefined, "Khanx.ExtendedAPI.LoadBaseTypes")]
+        [ModLoader.ModCallbackProvidesFor("Khanx.ExtendedAPI.Register_OnAddType_OnRemoveType_OnUpdateAdjacentType")]
+        public static void LoadBaseTypes()
         {
-            BaseType newType = Activator.CreateInstance(type) as BaseType;
-
-            if(newType.key.Equals("NOT_INIZILIZED"))
+            foreach(var modAssembly in ModLoader.LoadedMods)
             {
-                Log.Write("<color=red>Trying to add a BaseType without defining the key property.</color>");
-                return;
-            }
+                if(modAssembly.HasAssembly)
+                {
+                    foreach(Type type in modAssembly.LoadedAssemblyTypes)
+                    {
+                        if(type.IsDefined(typeof(AutoLoadTypeAttribute), true))
+                        {
+                            BaseType newType = Activator.CreateInstance(type) as BaseType;
 
-            if(!types.ContainsKey(newType.key))
-                types.Add(newType.key, newType);
-            else
-                Log.Write(string.Format("<color=red>{0} already has a callback registered in ExtendedAPI.</color>", newType.key));
+                            if(newType.key.Equals("NOT_INIZILIZED"))
+                            {
+                                Log.Write("<color=red>Trying to add a BaseType without defining the key property.</color>");
+                                return;
+                            }
+
+                            if(!types.ContainsKey(newType.key))
+                                types.Add(newType.key, newType);
+                            else
+                                Log.Write(string.Format("<color=red>{0} already has a callback registered in ExtendedAPI.</color>", newType.key));
+                        }
+                    }
+                }
+            }
         }
 
         public static bool TryGet(string key, out BaseType type)
@@ -98,6 +112,5 @@ namespace ExtendedAPI.Types
                     myTypeWith.OnRightClickWith(player, playerClickedData);
             }
         }
-
     }
 }

@@ -9,20 +9,33 @@ namespace ExtendedAPI.Recipes
     {
         private static Dictionary<string, BaseRecipe> recipes = new Dictionary<string, BaseRecipe>();
 
-        public static void Add(Type recipe)
+        [ModLoader.ModCallback(ModLoader.EModCallbackType.AfterItemTypesDefined, "Khanx.ExtendedAPI.LoadBaseRecipes")]
+        public static void LoadRecipes()
         {
-            BaseRecipe newRecipe = Activator.CreateInstance(recipe) as BaseRecipe;
-
-            if(newRecipe.key.Equals("NOT_INIZILIZED"))
+            foreach(var modAssembly in ModLoader.LoadedMods)
             {
-                Log.Write("<color=red>Trying to add a BaseRecipe without defining the key property.</color>");
-                return;
-            }
+                if(modAssembly.HasAssembly)
+                {
+                    foreach(Type type in modAssembly.LoadedAssemblyTypes)
+                    {
+                        if(type.IsDefined(typeof(AutoLoadRecipeAttribute), true))
+                        {
+                            BaseRecipe newRecipe = Activator.CreateInstance(type) as BaseRecipe;
 
-            if(!recipes.ContainsKey(newRecipe.key))
-                recipes.Add(newRecipe.key, newRecipe);
-            else
-                Log.Write(string.Format("<color=red>{0} already has a callback registered in ExtendedAPI.</color>", newRecipe.key));
+                            if(newRecipe.key.Equals("NOT_INIZILIZED"))
+                            {
+                                Log.Write("<color=red>Trying to add a BaseRecipe without defining the key property.</color>");
+                                return;
+                            }
+
+                            if(!recipes.ContainsKey(newRecipe.key))
+                                recipes.Add(newRecipe.key, newRecipe);
+                            else
+                                Log.Write(string.Format("<color=red>{0} already has a callback registered in ExtendedAPI.</color>", newRecipe.key));
+                        }
+                    }
+                }
+            }
         }
 
         public static bool TryGet(string key, out BaseRecipe recipe)

@@ -7,27 +7,41 @@ namespace ExtendedAPI.Commands
     [ModLoader.ModManager]
     public static class CommandManager
     {
-        private static List<Type> commands = new List<Type>();
+        private static List<BaseCommand> commands = new List<BaseCommand>();
 
-        public static void Add(Type type)
+        [ModLoader.ModCallback(ModLoader.EModCallbackType.AfterStartup, "Khanx.ExtendedAPI.LoadCommands")]
+        [ModLoader.ModCallbackProvidesFor("Khanx.ExtendedAPI.RegisterCommands")]
+        public static void LoadCommands()
         {
-            commands.Add(type);
+            foreach(var modAssembly in ModLoader.LoadedMods)
+            {
+                if(modAssembly.HasAssembly)
+                {
+                    foreach(Type type in modAssembly.LoadedAssemblyTypes)
+                    {
+                        if(type.IsDefined(typeof(AutoLoadCommandAttribute), true))
+                        {
+                            BaseCommand newCommand = Activator.CreateInstance(type) as BaseCommand;
+
+                            commands.Add(newCommand);
+                        }
+                    }
+                }
+            }
         }
 
         [ModLoader.ModCallback(ModLoader.EModCallbackType.AfterStartup, "Khanx.ExtendedAPI.RegisterCommands")]
         public static void RegisterCommands()
         {
-            foreach(var command in commands)
+            foreach(BaseCommand command in commands)
             {
-                BaseCommand newCommand = Activator.CreateInstance(command) as BaseCommand;
-
-                if(newCommand.equalsTo.Count == 0 && newCommand.startWith.Count == 0)
+                if(command.equalsTo.Count == 0 && command.startWith.Count == 0)
                 {
                     Log.Write("<color=red>Trying to add a BaseCommand without defining the equalsTo and startWith property.</color>");
                     continue;
                 }
 
-                ChatCommands.CommandManager.RegisterCommand(newCommand);
+                ChatCommands.CommandManager.RegisterCommand(command);
             }
         }
     }
