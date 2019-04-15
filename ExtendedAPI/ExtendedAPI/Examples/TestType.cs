@@ -1,53 +1,34 @@
-﻿//#define EXAMPLES
-using ExtendedAPI.Types;
+﻿#define EXAMPLES
+using System.Collections.Generic;
+using BlockEntities;
 using Pipliz;
-using Shared;
+using Chatting;
 
 #if EXAMPLES
 namespace ExtendedAPI.Examples
 {
-    [AutoLoadType]
-    class TestType : BaseType
+    [BlockEntityAutoLoader]
+    public class TestType : IChangedWithType, ISingleBlockEntityMapping, IUpdatedAdjacentType
     {
-        public TestType()
+        public ItemTypes.ItemType TypeToRegister { get { return BlockTypes.BuiltinBlocks.Types.planks; } }
+
+        public virtual void OnChangedWithType(Chunk chunk, BlockChangeRequestOrigin origin, Vector3Int blockPosition, ItemTypes.ItemType typeOld, ItemTypes.ItemType typeNew)
         {
-            key = "planks";
+            //OnRemove
+            if(typeNew == BlockTypes.BuiltinBlocks.Types.air)
+                Chat.SendToConnected("Planks removed");
+
+            //OnAdd
+            if(typeOld == BlockTypes.BuiltinBlocks.Types.air)
+                Chat.SendToConnected("Planks add");
         }
 
-        public override void RegisterOnAdd(Vector3Int position, ushort newType, Players.Player causedBy)
+        public void OnUpdateAdjacent(AdjacentUpdateData data)
         {
-            Pipliz.Chatting.Chat.SendToAll("Testing RegisterOnAdd");
+            Chat.SendToConnected("Adjacent updated");
         }
 
-        public override void RegisterOnRemove(Vector3Int position, ushort type, Players.Player causedBy)
-        {
-            Pipliz.Chatting.Chat.SendToAll("Testing RegisterOnRemove");
-        }
-
-        public override void RegisterOnUpdateAdjacent(ItemTypesServer.OnUpdateData onUpdateAdjacent)
-        {
-            Pipliz.Chatting.Chat.SendToAll("Testing RegisterOnUpdateAdjacent");
-        }
-
-        public override void OnLeftClickOn(Players.Player player, Box<PlayerClickedData> boxedData)
-        {
-            Pipliz.Chatting.Chat.SendToAll("Testing OnLeftClickOn");
-        }
-
-        public override void OnLeftClickWith(Players.Player player, Box<PlayerClickedData> boxedData)
-        {
-            Pipliz.Chatting.Chat.SendToAll("Testing OnLeftClickWith");
-        }
-
-        public override void OnRightClickOn(Players.Player player, Box<PlayerClickedData> boxedData)
-        {
-            Pipliz.Chatting.Chat.SendToAll("Testing OnRightClickOn");
-        }
-
-        public override void OnRightClickWith(Players.Player player, Box<PlayerClickedData> boxedData)
-        {
-            Pipliz.Chatting.Chat.SendToAll("Testing OnRightClickWith");
-        }
+        //Not implemented: click interaction
     }
 }
 #endif
