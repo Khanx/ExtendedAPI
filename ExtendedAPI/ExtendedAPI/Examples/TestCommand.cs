@@ -1,24 +1,27 @@
-﻿#define EXAMPLES
-using System.Collections.Generic;
-using Chatting;
+﻿//#define EXAMPLES
+using ExtendedAPI.Commands;
 
 #if EXAMPLES
 namespace ExtendedAPI.Examples
 {
 
-    [ChatCommandAutoLoader]
-    class TestCommand : IChatCommand
+    [AutoLoadCommand]
+    class TestCommand : BaseCommand
     {
-        public bool TryDoCommand(Players.Player player, string chat, List<string> splits)
+        public TestCommand()
         {
-            if(!chat.StartsWith("/command"))
-                return false;
+            equalsTo.Add("/command");   //Command without args
+            startWith.Add("/command_arg");  //Command with args
+        }
 
+        public override bool TryDoCommand(Players.Player player, string command)
+        {
             if(player == null || player.ID == NetworkID.Server)
                 return true;
 
-            foreach(var arg in splits)
-                Chat.Send(player, string.Format("Argumentos: {0}", arg));
+            var args = ChatCommands.CommandManager.SplitCommand(command);
+            foreach(var arg in args)
+                Pipliz.Chatting.Chat.SendToAll(string.Format("Argumentos: {0}", arg));
 
             return true;
         }
